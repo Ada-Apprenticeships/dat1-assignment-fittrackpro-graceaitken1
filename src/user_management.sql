@@ -3,7 +3,7 @@
 .mode column
 
 -- Enable foreign key support
-
+PRAGMA foreign_key = ON;
 -- User Management Queries
 
 -- 1. Retrieve all members

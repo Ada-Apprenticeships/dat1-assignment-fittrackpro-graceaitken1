@@ -3,7 +3,7 @@
 .mode column
 
 -- Enable foreign key support
-
+PRAGMA foreign_key = ON;
 -- Payment Management Queries
 
 -- 1. Record a payment for a membership

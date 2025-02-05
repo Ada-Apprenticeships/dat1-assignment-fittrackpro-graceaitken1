@@ -3,7 +3,7 @@
 .mode column
 
 -- Enable foreign key support
-
+PRAGMA foreign_key = ON;
 -- Class Scheduling Queries
 
 -- 1. List all classes with their instructors
