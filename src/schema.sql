@@ -41,8 +41,6 @@ CREATE TABLE locations (
     email VARCHAR(50) NOT NULL CHECK(email LIKE '%@%.%'),
     opening_hours VARCHAR(50) NOT NULL CHECK(length(opening_hours) >= 10)
 );
-
-
 -- 2. members
 
 CREATE TABLE members (
@@ -56,8 +54,6 @@ CREATE TABLE members (
     emergency_contact_name VARCHAR(80) NOT NULL CHECK(length(emergency_contact_name) > 1),
     emergency_contact_phone VARCHAR(15) NOT NULL CHECK(length(emergency_contact_phone) >= 8)
 );
-
-
 
 -- 3. staff
 
