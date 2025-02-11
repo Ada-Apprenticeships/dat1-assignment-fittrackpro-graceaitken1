@@ -84,18 +84,15 @@ CREATE TABLE equipment (
 
 -- 5. classes
 
-CREATE TABLE classes (
+CREATE TABLE classes(
     class_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(40) NOT NULL CHECK(length(name) > 1),
     description VARCHAR(100) NOT NULL CHECK(length(description) > 1),
     capacity INTEGER NOT NULL CHECK(capacity > 0),
     duration INTEGER NOT NULL CHECK(duration > 0),
     location_id INTEGER NOT NULL CHECK(location_id > 0),
-    staff_id INTEGER NOT NULL CHECK(staff_id > 0),
-    FOREIGN KEY (location_id) REFERENCES locations(location_id),    
-    FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
+    FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
-
 -- 6. class_schedule
 
 CREATE TABLE class_schedule (
@@ -147,25 +144,54 @@ CREATE TABLE class_attendance(
 
 -- 10. payments
 
-
-
-
-
+CREATE TABLE payments(
+    payment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    member_id INTEGER NOT NULL CHECK(member_id > 0),	
+    amount DECIMAL(10, 2) NOT NULL CHECK(amount > 0),	
+    payment_date DATETIME NOT NULL,	
+    payment_method VARCHAR(25) NOT NULL CHECK(payment_method IN ('Credit Card', 'Bank Transfer','Cash', 'PayPal')),
+    payment_type VARCHAR(25) NOT NULL CHECK(payment_type IN ('Monthly membership fee', 'Day pass')),
+    FOREIGN KEY (member_id) REFERENCES members(member_id)
+);
 
 -- 11. personal_training_sessions
 
-
-
-
-
+CREATE TABLE personal_training_sessions(
+    session_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    member_id INTEGER NOT NULL CHECK(member_id > 0),
+    staff_id INTEGER NOT NULL CHECK(staff_id > 0),
+    session_date DATE NOT NULL,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NOT NULL,
+    notes VARCHAR(100),
+    FOREIGN KEY (member_id) REFERENCES members(member_id),
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
+);
 
 -- 12. member_health_metrics
 
-
-
-
+CREATE TABLE member_health_metrics(
+    metric_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    member_id INTEGER NOT NULL CHECK(member_id > 0),
+    measurement_date DATE NOT NULL,
+    weight DECIMAL(5, 2) NOT NULL CHECK(weight > 0),
+    body_fat_percentage DECIMAL(5, 2) NOT NULL CHECK(body_fat_percentage > 0),
+    muscle_mass DECIMAL(5, 2) NOT NULL CHECK(muscle_mass > 0),
+    bmi DECIMAL(5, 2) NOT NULL CHECK(bmi > 0),
+    FOREIGN KEY (member_id) REFERENCES members(member_id)
+);
 
 -- 13. equipment_maintenance_log
+
+CREATE TABLE equipment_maintenance_log(
+    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    equipment_id INTEGER NOT NULL CHECK(equipment_id > 0),
+    maintenance_date DATE NOT NULL,
+    description VARCHAR(100) NOT NULL CHECK(length(description) > 1),
+    staff_id INTEGER NOT NULL CHECK(staff_id > 0),
+    FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id),
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
+);
 
 -- After creating the tables, you can import the sample data using:
 -- `.read data/sample_data.sql` in a sql file or `npm run import` in the terminal
