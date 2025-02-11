@@ -30,7 +30,6 @@ DROP TABLE IF EXISTS equipment_maintenance_log;
 --     ...
 -- );
 
--- TODO: Create the following tables:
 -- 1. locations
 
 CREATE TABLE locations ( 
