@@ -6,7 +6,6 @@
 PRAGMA foreign_key = ON;
 -- Equipment Management Queries
 
--- 1. Find equipment due for maintenance
 SELECT equipment_id, 
        name, 
        type, 

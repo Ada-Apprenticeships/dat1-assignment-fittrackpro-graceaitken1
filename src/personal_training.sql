@@ -14,3 +14,13 @@ FROM staff s
 JOIN personal_training_sessions pts ON s.staff_id = pts.staff_id
 JOIN members m ON pts.member_id = m.member_id
 WHERE s.first_name = 'Ivy' AND s.last_name = 'Irwin';
+
+SELECT pts.session_id, 
+       m.first_name || ' ' || m.last_name AS member_name, 
+       pts.session_date, 
+       pts.start_time, 
+       pts.end_time
+FROM personal_training_sessions pts
+JOIN members m ON pts.member_id = m.member_id
+JOIN staff s ON pts.staff_id = s.staff_id
+WHERE s.first_name = 'Ivy' AND s.last_name = 'Irwin';
