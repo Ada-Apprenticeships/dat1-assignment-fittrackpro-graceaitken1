@@ -1,6 +1,7 @@
 -- Initial SQLite setup
 .open fittrackpro.db
 .mode column
+.mode box
 
 PRAGMA foreign_key = ON;
 

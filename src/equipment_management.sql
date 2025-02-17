@@ -1,6 +1,7 @@
 -- Initial SQLite setup
 .open fittrackpro.db
 .mode column
+.mode box
 
 -- Enable foreign key support
 PRAGMA foreign_key = ON;
@@ -8,16 +9,15 @@ PRAGMA foreign_key = ON;
 
 SELECT equipment_id, 
        name, 
-       type, 
-       last_maintenance_date, 
        next_maintenance_date
 FROM equipment
 WHERE next_maintenance_date <= date('now');
 
-SELECT type, COUNT(*) AS count
+SELECT type AS equipment_type, COUNT(*) AS count
 FROM equipment
 GROUP BY type;
 
-SELECT type, AVG (julianday('now') - julianday(purchase_date)) AS ave_age_days
+SELECT type AS equipment_type, 
+       AVG(julianday('now') - julianday(purchase_date)) AS ave_age_days
 FROM equipment 
 GROUP BY type;

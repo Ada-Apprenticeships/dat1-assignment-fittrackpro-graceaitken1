@@ -38,8 +38,15 @@ CREATE TABLE locations (
     address VARCHAR(100) NOT NULL CHECK(length(address) > 4),
     phone_number VARCHAR(15) NOT NULL CHECK(length(phone_number) >= 8),
     email VARCHAR(50) NOT NULL CHECK(email LIKE '%@%.%'),
-    opening_hours VARCHAR(50) NOT NULL CHECK(length(opening_hours) >= 10)
+    opening_hours VARCHAR(50) NOT NULL CHECK(length(opening_hours) >= 12)
 );
+
+/*INSERT INTO locations (name, address, phone_number, email, opening_hours)
+VALUES ('Gym1', '123 Main St, Cityville', '555-1234', 'test@example.com', '6:00-22:00');
+
+INSERT INTO locations (name, address, phone_number, email, opening_hours)
+VALUES ('Gym Location', '123 Main St, Cityville', '12345678', 'test@example.com', '6:00-22:00');*/
+
 -- 2. members
 
 CREATE TABLE members (
@@ -53,6 +60,14 @@ CREATE TABLE members (
     emergency_contact_name VARCHAR(80) NOT NULL CHECK(length(emergency_contact_name) > 1),
     emergency_contact_phone VARCHAR(15) NOT NULL CHECK(length(emergency_contact_phone) >= 8)
 );
+
+/*-- Attempt to insert a member with a first_name of exactly 2 characters (minimum valid length)
+INSERT INTO members (first_name, last_name, email, phone_number, date_of_birth, join_date, emergency_contact_name, emergency_contact_phone)
+VALUES ('Jo', 'Doe', 'johndoe@example.com', '12345678', '1990-01-01', '2025-01-01', 'Jane Doe', '87654321');
+
+-- Attempt to insert a member with a phone_number of exactly 8 characters (minimum valid length)
+INSERT INTO members (first_name, last_name, email, phone_number, date_of_birth, join_date, emergency_contact_name, emergency_contact_phone)
+VALUES ('John', 'Doe', 'johndoe@example.com', '12345678', '1990-01-01', '2025-01-01', 'Jane Doe', '87654321');*/
 
 -- 3. staff
 
@@ -68,6 +83,12 @@ CREATE TABLE staff (
     FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
+/*INSERT INTO members (first_name, last_name, email, phone_number, date_of_birth, join_date, emergency_contact_name, emergency_contact_phone)
+VALUES ('Jo', 'Doe', 'johndoe@example.com', '12345678', '1990-01-01', '2025-01-01', 'Jane Doe', '87654321');
+
+INSERT INTO members (first_name, last_name, email, phone_number, date_of_birth, join_date, emergency_contact_name, emergency_contact_phone)
+VALUES ('John', 'Doe', 'johndoe@example.com', '12345678', '1990-01-01', '2025-01-01', 'Jane Doe', '87654321');*/
+
 -- 4. equipment
 
 CREATE TABLE equipment (
@@ -81,6 +102,12 @@ CREATE TABLE equipment (
     FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
+/*INSERT INTO equipment (name, type, purchase_date, last_maintenance_date, next_maintenance_date, location_id)
+VALUES ('E', 'Cardio', '2025-01-01', '2025-01-01', '2025-06-01', 1);
+
+INSERT INTO equipment (name, type, purchase_date, last_maintenance_date, next_maintenance_date, location_id)
+VALUES ('Eq', 'Cardio', '2025-01-01', '2025-01-01', '2025-06-01', 1);*/
+
 -- 5. classes
 
 CREATE TABLE classes(
@@ -92,6 +119,13 @@ CREATE TABLE classes(
     location_id INTEGER NOT NULL CHECK(location_id > 0),
     FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
+
+/*INSERT INTO classes (name, description, capacity, duration, location_id)
+VALUES ('Class1', 'Description', -2, 60, 1);
+
+INSERT INTO classes (name, description, capacity, duration, location_id)
+VALUES ('1', 'Description', 2, 60, 1);*/
+
 -- 6. class_schedule
 
 CREATE TABLE class_schedule (
@@ -104,6 +138,8 @@ CREATE TABLE class_schedule (
     FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
+/*INSERT INTO class_schedule (class_id, staff_id, start_time, end_time)
+VALUES (1, 1, '2025-01-01 11:00:00');*/
 
 -- 7. memberships
 
@@ -117,6 +153,8 @@ CREATE TABLE memberships (
     FOREIGN KEY (member_id) REFERENCES members(member_id)
 );
 
+/*INSERT INTO memberships (member_id, type, start_date, end_date, status)
+VALUES (1, 'Active', '2025-01-01', '2025-12-31', 'Active');*/
 
 -- 8. attendance
 
@@ -130,6 +168,9 @@ CREATE TABLE attendance (
     FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
+/*INSERT INTO attendance (member_id, location_id, check_in_time, check_out_time)
+VALUES (1, 1, '2025-01-01 11:00:00');*/
+
 -- 9. class_attendance
 
 CREATE TABLE class_attendance(
@@ -140,6 +181,12 @@ CREATE TABLE class_attendance(
     FOREIGN KEY (schedule_id) REFERENCES class_schedule(schedule_id),
     FOREIGN KEY (member_id) REFERENCES members(member_id)
 );
+
+/*INSERT INTO class_attendance (schedule_id, member_id, attendance_status)
+VALUES (1, 1, 'Not attended');
+
+INSERT INTO class_attendance (schedule_id, member_id, attendance_status)
+VALUES (0, 1, 'Attended');*/
 
 -- 10. payments
 
@@ -152,6 +199,12 @@ CREATE TABLE payments(
     payment_type VARCHAR(25) NOT NULL CHECK(payment_type IN ('Monthly membership fee', 'Day pass')),
     FOREIGN KEY (member_id) REFERENCES members(member_id)
 );
+
+/*INSERT INTO payments (member_id, amount, payment_date, payment_method, payment_type)
+VALUES (1, 0.01, datetime('now'), 'Credit Card', 'Monthly membership fee');
+
+INSERT INTO payments (member_id, amount, payment_date, payment_method, payment_type)
+VALUES (1, 0.04, datetime('now'), 'Credit Card', 'Weekly membership fee');*/
 
 -- 11. personal_training_sessions
 
@@ -167,6 +220,9 @@ CREATE TABLE personal_training_sessions(
     FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
+/*INSERT INTO personal_training_sessions (member_id, staff_id, session_date, start_time, end_time, notes)
+VALUES (1, 1, '2025-01-01', '2025-01-01 10:00:00', '2025-01-01 11:00:00', 'A');*/
+
 -- 12. member_health_metrics
 
 CREATE TABLE member_health_metrics(
@@ -180,6 +236,9 @@ CREATE TABLE member_health_metrics(
     FOREIGN KEY (member_id) REFERENCES members(member_id)
 );
 
+/*INSERT INTO member_health_metrics (member_id, measurement_date, weight, body_fat_percentage, muscle_mass, bmi)
+VALUES (1, '2025-01-01', -0.6, 10.0, 20.0, 25.0);*/
+
 -- 13. equipment_maintenance_log
 
 CREATE TABLE equipment_maintenance_log(
@@ -191,6 +250,9 @@ CREATE TABLE equipment_maintenance_log(
     FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id),
     FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
+
+/*INSERT INTO equipment_maintenance_log (equipment_id, maintenance_date, description, staff_id)
+VALUES (1, '2025-01-01', 'K', 1);*/
 
 -- After creating the tables, you can import the sample data using:
 -- `.read data/sample_data.sql` in a sql file or `npm run import` in the terminal
